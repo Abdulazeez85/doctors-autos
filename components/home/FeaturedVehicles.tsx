@@ -1,47 +1,13 @@
 import Link from "next/link";
 import { VehicleCard } from "@/components/vehicles/VehicleCard";
+import { getFeaturedVehicles } from "@/lib/data/vehicles";
 
-const vehicles = [
-  {
-    slug: "toyota-camry-2023",
-    year: 2023,
-    make: "Toyota",
-    model: "Camry",
-    price: "₦28,500,000",
-    mileage: "32,000 km",
-    transmission: "Automatic",
-    fuelType: "Petrol",
-    featured: true,
-  },
-  {
-    slug: "lexus-rx-350-2022",
-    year: 2022,
-    make: "Lexus",
-    model: "RX 350",
-    price: "₦42,000,000",
-    mileage: "41,000 km",
-    transmission: "Automatic",
-    fuelType: "Petrol",
-    featured: true,
-  },
-  {
-    slug: "mercedes-benz-c300-2021",
-    year: 2021,
-    make: "Mercedes-Benz",
-    model: "C300",
-    price: "₦35,000,000",
-    mileage: "38,000 km",
-    transmission: "Automatic",
-    fuelType: "Petrol",
-    featured: true,
-  },
-];
+export async function FeaturedVehicles() {
+  const vehicles = await getFeaturedVehicles();
 
-export function FeaturedVehicles() {
   return (
     <section className="border-t border-border bg-white px-6 py-24 lg:px-8">
       <div className="mx-auto max-w-7xl">
-        {/* Heading */}
         <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
           <div>
             <p className="text-sm font-semibold uppercase tracking-[0.2em] text-secondary">
@@ -66,10 +32,25 @@ export function FeaturedVehicles() {
           </Link>
         </div>
 
-        {/* Vehicles */}
         <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {vehicles.map((vehicle) => (
-            <VehicleCard key={vehicle.slug} {...vehicle} />
+            <VehicleCard
+              key={vehicle.id}
+              slug={vehicle.slug}
+              year={vehicle.year}
+              make={vehicle.make}
+              model={vehicle.model}
+              price={`₦${Number(vehicle.price).toLocaleString()}`}
+              mileage={
+                vehicle.mileage
+                  ? `${vehicle.mileage.toLocaleString()} km`
+                  : undefined
+              }
+              transmission={vehicle.transmission ?? undefined}
+              fuelType={vehicle.fuelType ?? undefined}
+              featured={vehicle.featured}
+              image={vehicle.images[0]?.url}
+            />
           ))}
         </div>
       </div>

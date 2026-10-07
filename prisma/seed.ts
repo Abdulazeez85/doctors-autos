@@ -1,12 +1,27 @@
 import "dotenv/config";
 
-import { PrismaClient, VehicleCondition, VehicleStatus } from "@prisma/client";
+import bcrypt from "bcryptjs";
+import {
+  PrismaClient,
+  UserRole,
+  VehicleCondition,
+  VehicleStatus,
+} from "@prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 
 const databaseUrl = process.env.DATABASE_URL;
 
 if (!databaseUrl) {
   throw new Error("DATABASE_URL is not defined in your environment.");
+}
+
+const adminEmail = process.env.ADMIN_EMAIL;
+const adminPassword = process.env.ADMIN_PASSWORD;
+
+if (!adminEmail || !adminPassword) {
+  throw new Error(
+    "ADMIN_EMAIL and ADMIN_PASSWORD must be defined in your environment.",
+  );
 }
 
 const adapter = new PrismaPg({
@@ -19,6 +34,35 @@ const prisma = new PrismaClient({
 
 async function main() {
   console.log("🌱 Starting database seed...");
+
+  // --------------------------------------------------
+  // Admin user
+  // --------------------------------------------------
+
+  const passwordHash = await bcrypt.hash(adminPassword, 12);
+
+  const admin = await prisma.user.upsert({
+    where: {
+      email: adminEmail.toLowerCase(),
+    },
+    update: {
+      name: "Doctor's Autos Admin",
+      passwordHash,
+      role: UserRole.ADMIN,
+    },
+    create: {
+      name: "Doctor's Autos Admin",
+      email: adminEmail.toLowerCase(),
+      passwordHash,
+      role: UserRole.ADMIN,
+    },
+  });
+
+  console.log(`✅ Admin user ready: ${admin.email}`);
+
+  // --------------------------------------------------
+  // Vehicles
+  // --------------------------------------------------
 
   await prisma.vehicle.deleteMany();
 

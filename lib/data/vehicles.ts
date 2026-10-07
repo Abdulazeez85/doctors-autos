@@ -156,3 +156,42 @@ export async function getInventoryVehicles(filters: InventoryFilters = {}) {
     orderBy,
   });
 }
+export async function getInventoryFilterOptions() {
+  const [makes, bodyTypes] = await Promise.all([
+    prisma.vehicle.findMany({
+      where: {
+        status: "AVAILABLE",
+      },
+      select: {
+        make: true,
+      },
+      distinct: ["make"],
+      orderBy: {
+        make: "asc",
+      },
+    }),
+
+    prisma.vehicle.findMany({
+      where: {
+        status: "AVAILABLE",
+        bodyType: {
+          not: null,
+        },
+      },
+      select: {
+        bodyType: true,
+      },
+      distinct: ["bodyType"],
+      orderBy: {
+        bodyType: "asc",
+      },
+    }),
+  ]);
+
+  return {
+    makes: makes.map((vehicle) => vehicle.make),
+    bodyTypes: bodyTypes
+      .map((vehicle) => vehicle.bodyType)
+      .filter((bodyType): bodyType is string => bodyType !== null),
+  };
+}

@@ -1,8 +1,10 @@
 import { Footer } from "@/components/layout/Footer";
 import { Navbar } from "@/components/layout/Navbar";
 import { VehicleCard } from "@/components/vehicles/VehicleCard";
-import { getInventoryVehicles } from "@/lib/data/vehicles";
-
+import {
+  getInventoryFilterOptions,
+  getInventoryVehicles,
+} from "@/lib/data/vehicles";import Link from "next/link";
 type InventoryPageProps = {
   searchParams: Promise<{
     search?: string;
@@ -37,7 +39,7 @@ export default async function InventoryPage({
     params.sort === "price-asc" || params.sort === "price-desc"
       ? params.sort
       : "newest";
-
+const filterOptions = await getInventoryFilterOptions();
   const vehicles = await getInventoryVehicles({
     search: params.search?.trim() || undefined,
     make: params.make?.trim() || undefined,
@@ -125,10 +127,13 @@ export default async function InventoryPage({
                     defaultValue={params.make ?? ""}
                     className="mt-2 h-11 w-full rounded-xl border border-border bg-background px-4 text-sm text-primary outline-none transition focus:border-primary"
                   >
-                    <option value="">All makes</option>
-                    <option value="Toyota">Toyota</option>
-                    <option value="Lexus">Lexus</option>
-                    <option value="Mercedes-Benz">Mercedes-Benz</option>
+                    <option value="">All Makes</option>
+
+{filterOptions.makes.map((make) => (
+  <option key={make} value={make}>
+    {make}
+  </option>
+))}
                   </select>
                 </div>
 
@@ -166,11 +171,13 @@ export default async function InventoryPage({
                     defaultValue={params.bodyType ?? ""}
                     className="mt-2 h-11 w-full rounded-xl border border-border bg-background px-4 text-sm text-primary outline-none transition focus:border-primary"
                   >
-                    <option value="">All body types</option>
-                    <option value="Sedan">Sedan</option>
-                    <option value="SUV">SUV</option>
-                    <option value="Coupe">Coupe</option>
-                    <option value="Truck">Truck</option>
+                    <option value="">All Body Types</option>
+
+{filterOptions.bodyTypes.map((bodyType) => (
+  <option key={bodyType} value={bodyType}>
+    {bodyType}
+  </option>
+))}
                   </select>
                 </div>
 
@@ -241,12 +248,12 @@ export default async function InventoryPage({
                     Apply Filters
                   </button>
 
-                  <a
+                  <Link 
                     href="/inventory"
                     className="inline-flex h-11 items-center justify-center rounded-full border border-border bg-white px-6 text-sm font-semibold text-primary transition-all hover:bg-surface-muted"
                   >
                     Clear
-                  </a>
+                  </Link>
                 </div>
               </form>
             </div>
@@ -283,13 +290,13 @@ export default async function InventoryPage({
                   Try adjusting your filters or search criteria.
                 </p>
 
-                <a
+                <Link 
                   href="/inventory"
                   className="mt-6 inline-flex rounded-full bg-primary px-6 py-3 text-sm font-semibold"
                   style={{ color: "#ffffff" }}
                 >
                   View All Vehicles
-                </a>
+                </Link>
               </div>
             )}
           </div>

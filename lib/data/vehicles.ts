@@ -38,3 +38,18 @@ export async function getAvailableVehicles() {
     },
   });
 }
+
+export async function getVehicleBySlug(slug: string) {
+  return prisma.vehicle.findUnique({
+    where: {
+      slug,
+    },
+    include: {
+      images: {
+        orderBy: {
+          sortOrder: "asc",
+        },
+      },
+    },
+  });
+}

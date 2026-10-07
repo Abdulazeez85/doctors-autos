@@ -1,4 +1,15 @@
 import { prisma } from "@/lib/prisma";
+import type { Prisma } from "@prisma/client";
+
+type InventoryFilters = {
+  search?: string;
+  make?: string;
+  condition?: "NEW" | "USED";
+  bodyType?: string;
+  minPrice?: number;
+  maxPrice?: number;
+  sort?: "newest" | "price-asc" | "price-desc";
+};
 
 export async function getFeaturedVehicles() {
   return prisma.vehicle.findMany({
@@ -51,5 +62,97 @@ export async function getVehicleBySlug(slug: string) {
         },
       },
     },
+  });
+}
+
+export async function getInventoryVehicles(filters: InventoryFilters = {}) {
+  const {
+    search,
+    make,
+    condition,
+    bodyType,
+    minPrice,
+    maxPrice,
+    sort = "newest",
+  } = filters;
+
+  const where: Prisma.VehicleWhereInput = {
+    status: "AVAILABLE",
+  };
+
+  if (search) {
+    where.OR = [
+      {
+        make: {
+          contains: search,
+          mode: "insensitive",
+        },
+      },
+      {
+        model: {
+          contains: search,
+          mode: "insensitive",
+        },
+      },
+    ];
+  }
+
+  if (make) {
+    where.make = {
+      equals: make,
+      mode: "insensitive",
+    };
+  }
+
+  if (condition) {
+    where.condition = condition;
+  }
+
+  if (bodyType) {
+    where.bodyType = {
+      equals: bodyType,
+      mode: "insensitive",
+    };
+  }
+
+  if (minPrice !== undefined || maxPrice !== undefined) {
+    where.price = {};
+
+    if (minPrice !== undefined) {
+      where.price.gte = minPrice;
+    }
+
+    if (maxPrice !== undefined) {
+      where.price.lte = maxPrice;
+    }
+  }
+
+  let orderBy: Prisma.VehicleOrderByWithRelationInput = {
+    createdAt: "desc",
+  };
+
+  if (sort === "price-asc") {
+    orderBy = {
+      price: "asc",
+    };
+  }
+
+  if (sort === "price-desc") {
+    orderBy = {
+      price: "desc",
+    };
+  }
+
+  return prisma.vehicle.findMany({
+    where,
+    include: {
+      images: {
+        orderBy: {
+          sortOrder: "asc",
+        },
+        take: 1,
+      },
+    },
+    orderBy,
   });
 }

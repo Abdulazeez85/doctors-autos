@@ -1,4 +1,5 @@
 import { auth } from "@/lib/auth";
+import { getAdminDashboardStats } from "@/lib/data/admin";
 import { redirect } from "next/navigation";
 
 export default async function AdminDashboardPage() {
@@ -8,10 +9,12 @@ export default async function AdminDashboardPage() {
     redirect("/admin/login");
   }
 
+  const stats = await getAdminDashboardStats();
+
   return (
     <main className="min-h-screen bg-[#F7F7F3] px-6 py-12">
       <div className="mx-auto max-w-6xl">
-        <div className="rounded-2xl border border-[#E8E8E2] bg-white p-8 shadow-sm">
+        <div className="mb-8">
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#C9A227]">
             Doctor&apos;s Autos
           </p>
@@ -23,32 +26,84 @@ export default async function AdminDashboardPage() {
           <p className="mt-3 text-[#6B7280]">
             Welcome back, {session.user.name ?? session.user.email}.
           </p>
-
-          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            <div className="rounded-xl border border-[#E8E8E2] bg-[#F7F7F3] p-5">
-              <p className="text-sm text-[#6B7280]">Vehicles</p>
-              <p className="mt-2 text-2xl font-bold text-[#111827]">—</p>
-            </div>
-
-            <div className="rounded-xl border border-[#E8E8E2] bg-[#F7F7F3] p-5">
-              <p className="text-sm text-[#6B7280]">Reviews</p>
-              <p className="mt-2 text-2xl font-bold text-[#111827]">—</p>
-            </div>
-
-            <div className="rounded-xl border border-[#E8E8E2] bg-[#F7F7F3] p-5">
-              <p className="text-sm text-[#6B7280]">Blog Posts</p>
-              <p className="mt-2 text-2xl font-bold text-[#111827]">—</p>
-            </div>
-
-            <div className="rounded-xl border border-[#E8E8E2] bg-[#F7F7F3] p-5">
-              <p className="text-sm text-[#6B7280]">Status</p>
-              <p className="mt-2 text-2xl font-bold text-[#111827]">
-                Active
-              </p>
-            </div>
-          </div>
         </div>
+
+        {/* Vehicles */}
+        <section>
+          <h2 className="mb-4 text-lg font-semibold text-[#111827]">
+            Inventory
+          </h2>
+
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <StatCard
+              label="Total Vehicles"
+              value={stats.vehicles.total}
+            />
+
+            <StatCard
+              label="Available"
+              value={stats.vehicles.available}
+            />
+
+            <StatCard
+              label="Reserved"
+              value={stats.vehicles.reserved}
+            />
+
+            <StatCard
+              label="Sold"
+              value={stats.vehicles.sold}
+            />
+          </div>
+        </section>
+
+        {/* Content */}
+        <section className="mt-10">
+          <h2 className="mb-4 text-lg font-semibold text-[#111827]">
+            Content
+          </h2>
+
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <StatCard
+              label="Total Reviews"
+              value={stats.reviews.total}
+            />
+
+            <StatCard
+              label="Published Reviews"
+              value={stats.reviews.published}
+            />
+
+            <StatCard
+              label="Total Blog Posts"
+              value={stats.blogPosts.total}
+            />
+
+            <StatCard
+              label="Published Posts"
+              value={stats.blogPosts.published}
+            />
+          </div>
+        </section>
       </div>
     </main>
+  );
+}
+
+function StatCard({
+  label,
+  value,
+}: {
+  label: string;
+  value: number;
+}) {
+  return (
+    <div className="rounded-xl border border-[#E8E8E2] bg-white p-5 shadow-sm">
+      <p className="text-sm text-[#6B7280]">{label}</p>
+
+      <p className="mt-2 text-3xl font-bold text-[#111827]">
+        {value}
+      </p>
+    </div>
   );
 }

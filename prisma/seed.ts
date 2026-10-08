@@ -1,13 +1,13 @@
 import "dotenv/config";
 
 import bcrypt from "bcryptjs";
+import { PrismaClient } from "@prisma/client";
+import { PrismaPg } from "@prisma/adapter-pg";
 import {
-  PrismaClient,
   UserRole,
   VehicleCondition,
   VehicleStatus,
 } from "@prisma/client";
-import { PrismaPg } from "@prisma/adapter-pg";
 
 const databaseUrl = process.env.DATABASE_URL;
 
@@ -15,14 +15,19 @@ if (!databaseUrl) {
   throw new Error("DATABASE_URL is not defined in your environment.");
 }
 
-const adminEmail = process.env.ADMIN_EMAIL;
-const adminPassword = process.env.ADMIN_PASSWORD;
+const adminEmailEnv = process.env.ADMIN_EMAIL;
+const adminPasswordEnv = process.env.ADMIN_PASSWORD;
 
-if (!adminEmail || !adminPassword) {
-  throw new Error(
-    "ADMIN_EMAIL and ADMIN_PASSWORD must be defined in your environment.",
-  );
+if (!adminEmailEnv) {
+  throw new Error("ADMIN_EMAIL must be defined in your environment.");
 }
+
+if (!adminPasswordEnv) {
+  throw new Error("ADMIN_PASSWORD must be defined in your environment.");
+}
+
+const adminEmail: string = adminEmailEnv;
+const adminPassword: string = adminPasswordEnv;
 
 const adapter = new PrismaPg({
   connectionString: databaseUrl,
@@ -34,10 +39,6 @@ const prisma = new PrismaClient({
 
 async function main() {
   console.log("🌱 Starting database seed...");
-
-  // --------------------------------------------------
-  // Admin user
-  // --------------------------------------------------
 
   const passwordHash = await bcrypt.hash(adminPassword, 12);
 
@@ -59,10 +60,6 @@ async function main() {
   });
 
   console.log(`✅ Admin user ready: ${admin.email}`);
-
-  // --------------------------------------------------
-  // Vehicles
-  // --------------------------------------------------
 
   await prisma.vehicle.deleteMany();
 

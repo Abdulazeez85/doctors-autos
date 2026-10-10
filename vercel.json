@@ -1,9 +1,9 @@
-
+ 
 {
   "crons": [
     {
       "path": "/api/cron/cloudinary-cleanup",
-      "schedule": "0 * * * *"
+      "schedule": "0 2 * * *"
     }
   ]
 }

@@ -114,3 +114,16 @@ model SiteSettings {
   logo         String?
   updatedAt    DateTime @updatedAt
 }
+
+
+model PendingCloudinaryDeletion {
+  id            String   @id @default(cuid())
+  publicId      String   @unique
+  attempts      Int      @default(0)
+  lastError     String?
+  lastAttemptAt DateTime?
+  createdAt     DateTime @default(now())
+
+  @@index([createdAt])
+}
+

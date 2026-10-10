@@ -9,6 +9,7 @@ import {
   uploadVehicleImages,
   deleteUploadedVehicleImages,
 } from "@/lib/vehicle-images";
+import { processPendingCloudinaryDeletions } from "@/lib/cloudinary-cleanup";
 
 const MAX_IMAGES = 10;
 
@@ -316,6 +317,8 @@ export async function updateVehicle(formData: FormData) {
   redirect("/admin/vehicles");
 }
 
+
+
 export async function deleteVehicle(formData: FormData) {
   const session = await auth();
 
@@ -329,20 +332,48 @@ export async function deleteVehicle(formData: FormData) {
     throw new Error("Vehicle ID is required.");
   }
 
-  const vehicle = await prisma.vehicle.findUnique({
-    where: { id },
-    select: { id: true },
+  await prisma.$transaction(async (tx) => {
+    const vehicle = await tx.vehicle.findUnique({
+      where: { id },
+      include: {
+        images: {
+          select: {
+            publicId: true,
+          },
+        },
+      },
+    });
+
+    if (!vehicle) {
+      throw new Error("Vehicle not found.");
+    }
+
+    const publicIds = [
+      ...new Set(
+        vehicle.images
+          .map((image) => image.publicId)
+          .filter((publicId): publicId is string => Boolean(publicId)),
+      ),
+    ];
+
+    if (publicIds.length > 0) {
+      await tx.pendingCloudinaryDeletion.createMany({
+        data: publicIds.map((publicId) => ({ publicId })),
+        skipDuplicates: true,
+      });
+    }
+
+    await tx.vehicle.delete({
+      where: { id },
+    });
   });
 
-  if (!vehicle) {
-    throw new Error("Vehicle not found.");
-  }
-
-  await prisma.vehicle.delete({
-    where: { id },
-  });
+  // Cloudinary failures are recorded for a later retry.
+  await processPendingCloudinaryDeletions();
 
   revalidatePath("/");
   revalidatePath("/inventory");
+  revalidatePath("/admin/vehicles");
+
   redirect("/admin/vehicles");
 }

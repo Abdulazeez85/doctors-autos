@@ -1,3 +1,4 @@
+
 import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
@@ -39,7 +40,12 @@ export default async function NewVehiclePage() {
           className="mt-8 rounded-2xl border border-[#E8E8E2] bg-white p-6 shadow-sm sm:p-8"
         >
           <div className="grid gap-6 sm:grid-cols-2">
-            <FormField label="Make" name="make" placeholder="Toyota" required />
+            <FormField
+              label="Make"
+              name="make"
+              placeholder="Toyota"
+              required
+            />
 
             <FormField
               label="Model"
@@ -134,6 +140,30 @@ export default async function NewVehiclePage() {
               >
                 Feature this vehicle
               </label>
+            </div>
+
+            {/* Vehicle photo upload */}
+            <div className="sm:col-span-2">
+              <label
+                htmlFor="images"
+                className="mb-2 block text-sm font-medium text-[#111827]"
+              >
+                Vehicle Photos
+              </label>
+
+              <input
+                id="images"
+                name="images"
+                type="file"
+                accept="image/jpeg,image/png,image/webp"
+                multiple
+                className="w-full rounded-lg border border-[#E8E8E2] bg-white px-4 py-3 text-sm text-[#111827] file:mr-4 file:rounded-md file:border-0 file:bg-[#F7F7F3] file:px-3 file:py-2 file:text-sm file:font-semibold"
+              />
+
+              <p className="mt-2 text-xs text-[#6B7280]">
+                Select up to 10 photos. JPEG, PNG, or WebP;
+                maximum 5 MB per photo.
+              </p>
             </div>
 
             <div className="sm:col-span-2">

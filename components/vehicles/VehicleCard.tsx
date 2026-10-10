@@ -1,5 +1,6 @@
+
 import Image from "next/image";
-import Link from "next/link";  
+import Link from "next/link";
 
 type VehicleCardProps = {
   slug: string;
@@ -28,16 +29,16 @@ export function VehicleCard({
 }: VehicleCardProps) {
   return (
     <article className="group overflow-hidden rounded-2xl border border-border bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
-      {/* Image */}
+      {/* Vehicle image */}
       <div className="relative aspect-[4/3] overflow-hidden bg-surface-muted">
         {image ? (
-           <Image
-  src={image}
-  alt={`${year} ${make} ${model}`}
-  fill
-  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-  className="object-cover transition-transform duration-500 group-hover:scale-105"
-/> 
+          <Image
+            src={image}
+            alt={`${year} ${make} ${model}`}
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
+          />
         ) : (
           <div className="flex h-full items-center justify-center">
             <div className="text-center">
@@ -45,7 +46,7 @@ export function VehicleCard({
                 Doctor&apos;s Autos
               </p>
               <p className="mt-2 text-xs text-muted/70">
-                Vehicle image
+                No vehicle photo available
               </p>
             </div>
           </div>
@@ -58,7 +59,7 @@ export function VehicleCard({
         )}
       </div>
 
-      {/* Content */}
+      {/* Vehicle details */}
       <div className="p-5">
         <div className="flex items-start justify-between gap-4">
           <div>
@@ -74,7 +75,7 @@ export function VehicleCard({
           </p>
         </div>
 
-        {/* Specs */}
+        {/* Vehicle specifications */}
         {(mileage || transmission || fuelType) && (
           <div className="mt-5 flex flex-wrap gap-x-4 gap-y-2 border-t border-border pt-4 text-xs text-muted">
             {mileage && <span>{mileage}</span>}

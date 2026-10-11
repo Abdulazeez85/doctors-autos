@@ -1,4 +1,4 @@
-
+﻿
 import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { getAdminDashboardStats } from "@/lib/data/admin";
@@ -60,6 +60,12 @@ export default async function AdminDashboardPage() {
           >
             Vehicles
           </Link>
+          <Link
+            href="/admin/reviews"
+            className="rounded-lg border border-[#E8E8E2] bg-white px-4 py-2.5 text-sm font-semibold text-[#111827] transition-colors hover:border-[#C9A227]"
+          >
+            Reviews
+          </Link>
         </nav>
 
         {/* Inventory statistics */}
@@ -79,7 +85,7 @@ export default async function AdminDashboardPage() {
             href="/admin/vehicles"
             className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[#111827] hover:text-[#9A7715]"
           >
-            View and manage inventory <span aria-hidden="true">→</span>
+            View and manage inventory <span aria-hidden="true">&rarr;</span>
           </Link>
         </section>
 
@@ -124,3 +130,4 @@ function StatCard({
     </div>
   );
 }
+

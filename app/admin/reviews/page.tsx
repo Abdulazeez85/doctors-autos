@@ -2,7 +2,8 @@
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
-import { setReviewPublished } from "./actions";
+import { deleteReview, setReviewPublished } from "./actions";
+import { DeleteReviewButton } from "./DeleteReviewButton";
 export default async function AdminReviewsPage() {
   const session = await auth();
   if (!session?.user) {
@@ -142,6 +143,7 @@ export default async function AdminReviewsPage() {
                       {review.published ? "Unpublish" : "Publish"}
                     </button>
                   </form>
+                  <DeleteReviewButton id={review.id} />
                 </div>
               </article>
             ))
@@ -151,3 +153,6 @@ export default async function AdminReviewsPage() {
     </main>
   );
 }
+
+
+

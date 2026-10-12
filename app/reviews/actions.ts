@@ -73,11 +73,16 @@ export async function submitReview(
     await prisma.$transaction(async (tx) => {
       // Serialize submissions sharing this IP hash across server instances.
       // PostgreSQL advisory locks are scoped to this transaction.
-      await tx.$queryRaw`
-  SELECT pg_advisory_xact_lock(
-    hashtextextended(${ipHash}, 0)
-  )
-`;
+      
+await tx.$queryRaw`
+  SELECT 1
+  FROM (
+    SELECT pg_advisory_xact_lock(
+      hashtextextended(${ipHash}, 0)
+    )
+  ) AS lock_result
+`; 
+
 
       const recentSubmissions = await tx.reviewSubmissionAttempt.count({
         where: {

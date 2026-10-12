@@ -84,6 +84,7 @@ await tx.$queryRaw`
 `; 
 
 
+
       const recentSubmissions = await tx.reviewSubmissionAttempt.count({
         where: {
           ipHash,
@@ -114,6 +115,7 @@ await tx.$queryRaw`
     revalidatePath("/admin/reviews");
 
     return { status: "success", message: successMessage };
+ 
   } catch (error) {
     if (error instanceof Error && error.message === "REVIEW_RATE_LIMIT") {
       return {
@@ -122,9 +124,22 @@ await tx.$queryRaw`
       };
     }
 
+    console.error("[Review Submission] Failed:", {
+      errorName: error instanceof Error ? error.name : "UnknownError",
+      errorMessage: error instanceof Error ? error.message : "Unknown error",
+      errorCode:
+        typeof error === "object" &&
+        error !== null &&
+        "code" in error
+          ? error.code
+          : undefined,
+    });
+
     return {
       status: "error",
       message: "We couldn't save your review right now. Please try again later.",
     };
   }
 }
+
+

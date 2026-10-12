@@ -73,6 +73,7 @@ model VehicleImage {
   @@index([vehicleId])
 }
 
+
 model Review {
   id           String   @id @default(cuid())
   customerName String
@@ -81,8 +82,10 @@ model Review {
   image        String?
   published    Boolean  @default(false)
   createdAt    DateTime @default(now())
+  ipHash       String?
 
   @@index([published])
+  @@index([ipHash, createdAt])
 }
 
 model BlogPost {

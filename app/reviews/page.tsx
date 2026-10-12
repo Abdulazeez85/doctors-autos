@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { prisma } from "@/lib/prisma";
+import { ReviewSubmissionForm } from "./ReviewSubmissionForm";
 export const metadata: Metadata = {
   title: "Customer Reviews | Doctor's Autos",
   description:
@@ -143,6 +144,11 @@ export default async function ReviewsPage() {
                 Explore our vehicles <span aria-hidden="true">→</span>
               </Link>
             </div>
+          </div>
+        </section>
+                <section className="bg-background px-6 pb-16 lg:px-8 lg:pb-20">
+          <div className="mx-auto max-w-3xl">
+            <ReviewSubmissionForm />
           </div>
         </section>
       </main>

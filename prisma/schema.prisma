@@ -82,9 +82,15 @@ model Review {
   image        String?
   published    Boolean  @default(false)
   createdAt    DateTime @default(now())
-  ipHash       String?
 
   @@index([published])
+}
+
+model ReviewSubmissionAttempt {
+  id        String   @id @default(cuid())
+  ipHash    String
+  createdAt DateTime @default(now())
+
   @@index([ipHash, createdAt])
 }
 

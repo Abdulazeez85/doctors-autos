@@ -12,32 +12,21 @@ export type ReviewFormState = {
   message: string;
 };
 
-const initialMessage =
+const successMessage =
   "Thanks for sharing your experience. Your review will be checked before it appears on our website.";
 
 const reviewSchema = z.object({
-  customerName: z
-    .string()
-    .trim()
-    .min(2, "Please enter a name with at least 2 characters.")
-    .max(80, "Your name must be 80 characters or fewer."),
+  customerName: z.string().trim().min(2).max(80),
   rating: z.coerce.number().int().min(1).max(5),
-  comment: z
-    .string()
-    .trim()
-    .min(10, "Please write at least 10 characters.")
-    .max(2000, "Your review must be 2,000 characters or fewer."),
+  comment: z.string().trim().min(10).max(2000),
 });
 
 export async function submitReview(
   _previousState: ReviewFormState,
   formData: FormData
 ): Promise<ReviewFormState> {
-  const website = String(formData.get("website") ?? "").trim();
-
-  // Hidden honeypot field: quietly ignore likely automated spam.
-  if (website) {
-    return { status: "success", message: initialMessage };
+  if (String(formData.get("website") ?? "").trim()) {
+    return { status: "success", message: successMessage };
   }
 
   const parsed = reviewSchema.safeParse({
@@ -49,12 +38,13 @@ export async function submitReview(
   if (!parsed.success) {
     return {
       status: "error",
-      message: parsed.error.issues[0]?.message ?? "Please check your review and try again.",
+      message:
+        parsed.error.issues[0]?.message ??
+        "Please check your review and try again.",
     };
   }
 
   const secret = process.env.AUTH_SECRET;
-
   if (!secret) {
     return {
       status: "error",
@@ -80,37 +70,53 @@ export async function submitReview(
   const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
 
   try {
-    const recentSubmissions = await prisma.review.count({
-      where: {
-        ipHash,
-        createdAt: { gte: oneHourAgo },
-      },
+    await prisma.$transaction(async (tx) => {
+      // Serialize submissions sharing this IP hash across server instances.
+      // PostgreSQL advisory locks are scoped to this transaction.
+      await tx.$queryRaw`
+  SELECT pg_advisory_xact_lock(
+    hashtextextended(${ipHash}, 0)
+  )
+`;
+
+      const recentSubmissions = await tx.reviewSubmissionAttempt.count({
+        where: {
+          ipHash,
+          createdAt: { gte: oneHourAgo },
+        },
+      });
+
+      if (recentSubmissions >= 3) {
+        throw new Error("REVIEW_RATE_LIMIT");
+      }
+
+      await tx.review.create({
+        data: {
+          customerName: parsed.data.customerName,
+          rating: parsed.data.rating,
+          comment: parsed.data.comment,
+          published: false,
+        },
+      });
+
+      await tx.reviewSubmissionAttempt.create({
+        data: { ipHash },
+      });
     });
 
-    if (recentSubmissions >= 3) {
+    revalidatePath("/");
+    revalidatePath("/reviews");
+    revalidatePath("/admin/reviews");
+
+    return { status: "success", message: successMessage };
+  } catch (error) {
+    if (error instanceof Error && error.message === "REVIEW_RATE_LIMIT") {
       return {
         status: "error",
-        message: "You've reached the review submission limit. Please try again in an hour.",
+        message: "You've reached the review submission limit. Please try again later.",
       };
     }
 
-    await prisma.review.create({
-      data: {
-        customerName: parsed.data.customerName,
-        rating: parsed.data.rating,
-        comment: parsed.data.comment,
-        published: false,
-        ipHash,
-      },
-    });
-
-    revalidatePath("/admin/reviews");
-
-    return {
-      status: "success",
-      message: initialMessage,
-    };
-  } catch {
     return {
       status: "error",
       message: "We couldn't save your review right now. Please try again later.",

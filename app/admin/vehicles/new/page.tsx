@@ -1,15 +1,10 @@
 
 import Link from "next/link";
-import { auth } from "@/lib/auth";
-import { redirect } from "next/navigation";
 import { createVehicle } from "../actions";
+import { requireAdmin } from "@/lib/require-admin";
 
 export default async function NewVehiclePage() {
-  const session = await auth();
-
-  if (!session?.user) {
-    redirect("/admin/login");
-  }
+  await requireAdmin();
 
   return (
     <main className="min-h-screen bg-[#F7F7F3] px-6 py-12">

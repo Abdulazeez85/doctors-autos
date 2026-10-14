@@ -1,14 +1,10 @@
 ﻿import Link from "next/link";
-import { auth } from "@/lib/auth";
+import { requireAdmin } from "@/lib/require-admin";
 import { prisma } from "@/lib/prisma";
-import { redirect } from "next/navigation";
 import { setReviewPublished } from "./actions";
 import { DeleteReviewButton } from "./DeleteReviewButton";
 export default async function AdminReviewsPage() {
-  const session = await auth();
-  if (!session?.user) {
-    redirect("/admin/login");
-  }
+  await requireAdmin();
   const reviews = await prisma.review.findMany({
     orderBy: { createdAt: "desc" },
   });

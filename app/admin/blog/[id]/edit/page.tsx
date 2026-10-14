@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { notFound, redirect } from "next/navigation";
-import { auth } from "@/lib/auth";
+import { notFound } from "next/navigation";
+import { requireAdmin } from "@/lib/require-admin";
 import { prisma } from "@/lib/prisma";
 import { updateBlogPost } from "../../actions";
 
@@ -11,11 +11,7 @@ type EditBlogPostPageProps = {
 export default async function EditBlogPostPage({
   params,
 }: EditBlogPostPageProps) {
-  const session = await auth();
-
-  if (!session?.user) {
-    redirect("/admin/login");
-  }
+  await requireAdmin();
 
   const { id } = await params;
 

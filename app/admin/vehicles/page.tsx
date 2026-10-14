@@ -1,15 +1,10 @@
 import Link from "next/link";
-import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { redirect } from "next/navigation";
+import { requireAdmin } from "@/lib/require-admin";
 import VehicleInventoryTable from "@/components/admin/vehicle-inventory-table";
 
 export default async function AdminVehiclesPage() {
-  const session = await auth();
-
-  if (!session?.user) {
-    redirect("/admin/login");
-  }
+  await requireAdmin();
 
   const vehicles = await prisma.vehicle.findMany({
     orderBy: {

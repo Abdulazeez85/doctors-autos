@@ -1,9 +1,9 @@
 
 import Image from "next/image";
+import { requireAdmin } from "@/lib/require-admin";
+import { notFound } from "next/navigation";
 import Link from "next/link";
-import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { notFound, redirect } from "next/navigation";
 import { updateVehicle } from "../../actions";
 import DeleteVehicleButton from "@/components/admin/DeleteVehicleButton";
 
@@ -14,11 +14,7 @@ type EditVehiclePageProps = {
 export default async function EditVehiclePage({
   params,
 }: EditVehiclePageProps) {
-  const session = await auth();
-
-  if (!session?.user) {
-    redirect("/admin/login");
-  }
+  await requireAdmin();
 
   const { id } = await params;
 

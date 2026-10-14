@@ -1,16 +1,11 @@
 
 import Link from "next/link";
-import { auth } from "@/lib/auth";
+import { requireAdmin } from "@/lib/require-admin";
 import { prisma } from "@/lib/prisma";
-import { redirect } from "next/navigation";
 import { deleteBlogPost, toggleBlogPost } from "./actions";
 
 export default async function AdminBlogPage() {
-  const session = await auth();
-
-  if (!session?.user) {
-    redirect("/admin/login");
-  }
+  await requireAdmin();
 
   const posts = await prisma.blogPost.findMany({
     orderBy: { updatedAt: "desc" },

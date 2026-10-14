@@ -1,7 +1,7 @@
 
 "use server";
 
-import { auth } from "@/lib/auth";
+import { requireAdmin } from "@/lib/require-admin";
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
@@ -14,13 +14,7 @@ function slugify(value: string) {
     .replace(/^-+|-+$/g, "");
 }
 
-async function requireAdmin() {
-  const session = await auth();
 
-  if (!session?.user) {
-    redirect("/admin/login");
-  }
-}
 
 async function createUniqueSlug(title: string, excludeId?: string) {
   const baseSlug = slugify(title) || "blog-post";

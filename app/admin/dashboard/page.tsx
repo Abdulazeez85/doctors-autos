@@ -1,15 +1,10 @@
 ﻿
 import Link from "next/link";
-import { auth } from "@/lib/auth";
+import { requireAdmin } from "@/lib/require-admin";
 import { getAdminDashboardStats } from "@/lib/data/admin";
-import { redirect } from "next/navigation";
 
 export default async function AdminDashboardPage() {
-  const session = await auth();
-
-  if (!session?.user) {
-    redirect("/admin/login");
-  }
+  const admin = await requireAdmin();
 
   const stats = await getAdminDashboardStats();
 
@@ -28,8 +23,7 @@ export default async function AdminDashboardPage() {
             </h1>
 
             <p className="mt-3 text-[#6B7280]">
-              Welcome back, {session.user.name ?? session.user.email}.
-            </p>
+Welcome back, {admin.name ?? admin.email}.            </p>
           </div>
 
           <Link

@@ -110,13 +110,25 @@ export async function createVehicle(formData: FormData) {
       },
     });
   } catch (error) {
-    await deleteUploadedVehicleImages(uploadedImages);
-    console.error("Vehicle creation failed:", error);
+  await deleteUploadedVehicleImages(uploadedImages);
 
-    throw new Error(
-      "Could not create the vehicle. Please check your details and try again.",
-    );
-  }
+  console.error("Vehicle creation failed:", {
+    error,
+    message: error instanceof Error ? error.message : String(error),
+    code:
+      typeof error === "object" && error !== null && "code" in error
+        ? error.code
+        : undefined,
+    meta:
+      typeof error === "object" && error !== null && "meta" in error
+        ? error.meta
+        : undefined,
+  });
+
+  throw new Error(
+    "Could not create the vehicle. Please check the development terminal for details.",
+  );
+}
 
   revalidatePath("/");
   revalidatePath("/inventory");

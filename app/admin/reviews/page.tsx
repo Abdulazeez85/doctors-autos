@@ -2,7 +2,7 @@
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
-import { deleteReview, setReviewPublished } from "./actions";
+import { setReviewPublished } from "./actions";
 import { DeleteReviewButton } from "./DeleteReviewButton";
 export default async function AdminReviewsPage() {
   const session = await auth();

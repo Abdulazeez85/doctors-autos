@@ -110,8 +110,8 @@ export default async function NewBlogPostPage() {
               className="w-full rounded-lg border border-[#D1D5DB] px-4 py-3 text-[#111827] outline-none focus:border-[#C9A227] focus:ring-2 focus:ring-[#C9A227]/20"
             />
             <p className="mt-1 text-xs text-[#6B7280]">
-              You can write multiple paragraphs. We'll improve the article
-              formatting in a later step.
+              You can write multiple paragraphs. We&apos;ll improve the article
+formatting in a later step.
             </p>
           </div>
 

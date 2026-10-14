@@ -51,15 +51,14 @@ export async function getAvailableVehicles() {
 }
 
 export async function getVehicleBySlug(slug: string) {
-  return prisma.vehicle.findUnique({
+  return prisma.vehicle.findFirst({
     where: {
       slug,
+      status: "AVAILABLE",
     },
     include: {
       images: {
-        orderBy: {
-          sortOrder: "asc",
-        },
+        orderBy: { sortOrder: "asc" },
       },
     },
   });

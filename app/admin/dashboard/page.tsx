@@ -60,6 +60,12 @@ Welcome back, {admin.name ?? admin.email}.            </p>
           >
             Reviews
           </Link>
+          <Link
+  href="/admin/blog"
+  className="rounded-lg border border-[#E8E8E2] bg-white px-4 py-2.5 text-sm font-semibold text-[#111827] transition-colors hover:border-[#C9A227]"
+>
+  Blog
+</Link>
         </nav>
 
         {/* Inventory statistics */}

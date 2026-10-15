@@ -14,9 +14,12 @@ export async function processPendingCloudinaryDeletions(): Promise<void> {
       orderBy: { createdAt: "asc" },
       take: MAX_JOBS_PER_RUN,
     });
-  } catch (error) {
+  
+      } catch (error) {
     console.error("Could not load Cloudinary cleanup queue:", error);
-    return;
+    throw new Error("Could not load Cloudinary cleanup queue.", {
+      cause: error,
+    });
   }
 
   for (const job of jobs) {

@@ -2,6 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { prisma } from "@/lib/prisma";
 import { getVehicleBySlug } from "@/lib/data/vehicles";
 
 type VehicleDetailPageProps = {
@@ -10,15 +11,72 @@ type VehicleDetailPageProps = {
   }>;
 };
 
+function normalizePhone(value: string): string {
+  const digits = value.replace(/\D/g, "");
+
+  if (!digits) return "";
+
+  if (digits.startsWith("0")) {
+    return `234${digits.slice(1)}`;
+  }
+
+  if (digits.startsWith("234")) {
+    return digits;
+  }
+
+  return digits;
+}
+
+function getTelHref(value: string): string {
+  const digits = value.replace(/\D/g, "");
+
+  if (!digits) return "";
+
+  if (digits.startsWith("0")) {
+    return `+234${digits.slice(1)}`;
+  }
+
+  if (digits.startsWith("234")) {
+    return `+${digits}`;
+  }
+
+  return value.startsWith("+") ? `+${digits}` : digits;
+}
+
 export default async function VehicleDetailPage({
   params,
 }: VehicleDetailPageProps) {
   const { slug } = await params;
-  const vehicle = await getVehicleBySlug(slug);
+
+  const [vehicle, settings] = await Promise.all([
+    getVehicleBySlug(slug),
+    prisma.siteSettings.findUnique({
+      where: { id: "main" },
+    }),
+  ]);
 
   if (!vehicle) {
     notFound();
   }
+
+  const businessName = settings?.businessName || "Doctor's Autos";
+  const phone = settings?.phone || "08113545998";
+  const whatsapp = settings?.whatsapp || "08113545998";
+
+  const whatsappNumber = normalizePhone(whatsapp);
+  const phoneNumber = getTelHref(phone);
+
+  const vehicleName = `${vehicle.year} ${vehicle.make} ${vehicle.model}`;
+
+  const whatsappMessage = `Hello ${businessName}, I'm interested in the ${vehicleName}.`;
+
+  const whatsappHref = whatsappNumber
+    ? `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
+        whatsappMessage
+      )}`
+    : "";
+
+  const phoneHref = phoneNumber ? `tel:${phoneNumber}` : "";
 
   return (
     <main className="min-h-screen">
@@ -37,7 +95,7 @@ export default async function VehicleDetailPage({
                 {vehicle.images.length > 0 ? (
                   <Image
                     src={vehicle.images[0].url}
-                    alt={`${vehicle.year} ${vehicle.make} ${vehicle.model}`}
+                    alt={vehicleName}
                     fill
                     priority
                     sizes="(max-width: 1024px) 100vw, 60vw"
@@ -47,8 +105,9 @@ export default async function VehicleDetailPage({
                   <div className="flex h-full items-center justify-center">
                     <div className="text-center">
                       <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted">
-                        Doctor&apos;s Autos
+                        {businessName}
                       </p>
+
                       <p className="mt-2 text-sm text-muted/70">
                         Vehicle image coming soon
                       </p>
@@ -146,24 +205,26 @@ export default async function VehicleDetailPage({
               </div>
 
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                <a
-                  href={`https://wa.me/2348113545998?text=${encodeURIComponent(
-                    `Hello Doctor's Autos, I'm interested in the ${vehicle.year} ${vehicle.make} ${vehicle.model}.`
-                  )}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex flex-1 items-center justify-center rounded-full bg-primary px-6 py-3.5 text-sm font-semibold transition-all hover:bg-primary/90 hover:shadow-lg"
-                  style={{ color: "#ffffff" }}
-                >
-                  Ask About This Vehicle
-                </a>
+                {whatsappHref && (
+                  <a
+                    href={whatsappHref}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex flex-1 items-center justify-center rounded-full bg-primary px-6 py-3.5 text-sm font-semibold transition-all hover:bg-primary/90 hover:shadow-lg"
+                    style={{ color: "#ffffff" }}
+                  >
+                    Ask About This Vehicle
+                  </a>
+                )}
 
-                <a
-                  href="tel:+2348113545998"
-                  className="inline-flex items-center justify-center rounded-full border border-border bg-white px-6 py-3.5 text-sm font-semibold text-primary transition-all hover:border-primary/20 hover:bg-surface-muted"
-                >
-                  Call Dealer
-                </a>
+                {phoneHref && (
+                  <a
+                    href={phoneHref}
+                    className="inline-flex items-center justify-center rounded-full border border-border bg-white px-6 py-3.5 text-sm font-semibold text-primary transition-all hover:border-primary/20 hover:bg-surface-muted"
+                  >
+                    Call Dealer
+                  </a>
+                )}
               </div>
             </div>
           </div>
@@ -189,7 +250,7 @@ export default async function VehicleDetailPage({
                 >
                   <Image
                     src={image.url}
-                    alt={`${vehicle.year} ${vehicle.make} ${vehicle.model}`}
+                    alt={vehicleName}
                     fill
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     className="object-cover"

@@ -89,14 +89,17 @@ export default async function BlogPostPage({
           </p>
 
           <div className="mt-4 flex flex-wrap gap-3">
-            <a
-              href="https://wa.me/2348113545998"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center rounded-lg bg-[#0B1220] px-5 py-3 text-sm font-bold text-white hover:bg-[#1B2A42]"
-            >
-              Contact us on WhatsApp
-            </a>
+          
+<a
+  href="https://wa.me/2348113545998"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="inline-flex min-h-12 items-center justify-center gap-2 rounded-lg bg-[#25D366] px-6 py-3 text-sm font-bold text-white shadow-sm transition-colors hover:bg-[#1DA851] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#25D366] focus-visible:ring-offset-2"
+>
+  <span aria-hidden="true">☏</span>
+  Contact Us on WhatsApp
+</a>
+
 
             <Link
               href="/inventory"

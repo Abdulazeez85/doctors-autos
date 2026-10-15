@@ -62,7 +62,8 @@ Welcome back, {admin.name ?? admin.email}.            </p>
           </Link>
           <Link
   href="/admin/blog"
-  className="rounded-lg border border-[#E8E8E2] bg-white px-4 py-2.5 text-sm font-semibold text-[#111827] transition-colors hover:border-[#C9A227]"
+  className="rounded-lg border-2 border-[#0B1220] bg-[#0B1220] px-4 py-2.5 text-sm font-bold shadow-sm transition-colors hover:border-[#C9A227] hover:bg-[#1B2A42]"
+  style={{ color: "#FFFFFF" }}
 >
   Blog
 </Link>

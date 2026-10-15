@@ -1,7 +1,5 @@
 ﻿import Link from "next/link";
 import type { Metadata } from "next";
-import { Navbar } from "@/components/layout/Navbar";
-import { Footer } from "@/components/layout/Footer";
 import { prisma } from "@/lib/prisma";
 import { ReviewSubmissionForm } from "./ReviewSubmissionForm";
 export const metadata: Metadata = {
@@ -21,7 +19,6 @@ export default async function ReviewsPage() {
       : 0;
   return (
     <div className="flex min-h-screen flex-col">
-      <Navbar />
       <main className="flex-1 bg-background">
         <section className="bg-primary px-6 py-20 text-white lg:px-8 lg:py-28">
           <div className="mx-auto max-w-7xl">
@@ -152,7 +149,6 @@ export default async function ReviewsPage() {
           </div>
         </section>
       </main>
-      <Footer />
     </div>
   );
 }

@@ -48,12 +48,13 @@ export default async function AdminReviewsPage() {
             Vehicles
           </Link>
           <Link
-            href="/admin/reviews"
-            aria-current="page"
-            className="rounded-lg border-2 border-[#0B1220] bg-[#0B1220] px-4 py-2.5 text-sm font-bold text-white"
-          >
-            Reviews
-          </Link>
+  href="/admin/reviews"
+  aria-current="page"
+  className="inline-flex items-center justify-center rounded-lg border-2 border-[#0B1220] bg-[#0B1220] px-4 py-2.5 text-sm font-bold shadow-sm transition-colors hover:border-[#C9A227] hover:bg-[#1B2A42]"
+  style={{ color: "#FFFFFF" }}
+>
+  Reviews
+</Link>
         </nav>
         <section className="mt-8 grid gap-4 sm:grid-cols-3">
           <div className="rounded-xl border border-[#E8E8E2] bg-white p-5">

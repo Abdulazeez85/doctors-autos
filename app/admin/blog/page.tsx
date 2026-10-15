@@ -30,11 +30,12 @@ export default async function AdminBlogPage() {
           </div>
 
           <Link
-            href="/admin/blog/new"
-            className="inline-flex items-center justify-center rounded-lg bg-[#0B1220] px-5 py-3 text-sm font-bold text-white transition hover:bg-[#1B2A42]"
-          >
-            + Create Blog Post
-          </Link>
+  href="/admin/blog/new"
+  className="inline-flex items-center justify-center rounded-lg border-2 border-[#0B1220] bg-[#0B1220] px-5 py-3 text-sm font-bold shadow-md transition-colors hover:border-[#C9A227] hover:bg-[#1B2A42]"
+  style={{ color: "#FFFFFF" }}
+>
+  + Create Blog Post
+</Link>
         </header>
 
         <nav
@@ -60,12 +61,13 @@ export default async function AdminBlogPage() {
             Reviews
           </Link>
           <Link
-            href="/admin/blog"
-            className="rounded-lg border-2 border-[#0B1220] bg-[#0B1220] px-4 py-2.5 text-sm font-bold text-white"
-            aria-current="page"
-          >
-            Blog
-          </Link>
+  href="/admin/blog"
+  aria-current="page"
+  className="inline-flex items-center justify-center rounded-lg border-2 border-[#0B1220] bg-[#0B1220] px-4 py-2.5 text-sm font-bold shadow-sm transition-colors hover:border-[#C9A227] hover:bg-[#1B2A42]"
+  style={{ color: "#FFFFFF" }}
+>
+  Blog
+</Link>
         </nav>
 
         <section className="mt-8 grid gap-4 sm:grid-cols-3">

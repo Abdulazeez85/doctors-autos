@@ -1,5 +1,3 @@
-import { Footer } from "@/components/layout/Footer";
-import { Navbar } from "@/components/layout/Navbar";
 import { VehicleCard } from "@/components/vehicles/VehicleCard";
 import {
   getInventoryFilterOptions,
@@ -58,7 +56,6 @@ const filterOptions = await getInventoryFilterOptions();
 
   return (
     <div className="flex min-h-screen flex-col">
-      <Navbar />
 
       <main className="flex-1">
         <section className="border-b border-border bg-white px-6 py-16 lg:px-8">
@@ -303,7 +300,6 @@ const filterOptions = await getInventoryFilterOptions();
         </section>
       </main>
 
-      <Footer />
     </div>
   );
 }

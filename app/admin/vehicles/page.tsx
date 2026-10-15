@@ -43,11 +43,12 @@ export default async function AdminVehiclesPage() {
           </div>
 
           <Link
-            href="/admin/vehicles/new"
-            className="inline-flex items-center justify-center rounded-lg bg-[#0B1220] px-5 py-3 text-sm font-semibold text-white"
-          >
-            + Add Vehicle
-          </Link>
+  href="/admin/vehicles/new"
+  className="inline-flex items-center justify-center rounded-lg border-2 border-[#0B1220] bg-[#0B1220] px-5 py-3 text-sm font-bold shadow-md transition-colors hover:border-[#C9A227] hover:bg-[#1B2A42]"
+  style={{ color: "#FFFFFF" }}
+>
+  + Add Vehicle
+</Link>
         </div>
 
         <VehicleInventoryTable vehicles={serializableVehicles} />

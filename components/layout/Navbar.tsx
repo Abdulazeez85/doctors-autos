@@ -12,13 +12,17 @@ const navigation = [
   { label: "Blog", href: "/blog" },
 ];
 
-export function Navbar() {
+type NavbarProps = {
+  businessName: string;
+  address: string;
+};
+
+export function Navbar({ businessName, address }: NavbarProps) {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <header className="sticky top-0 z-50 border-b border-border/70 bg-background/95 backdrop-blur">
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 lg:px-8">
-        {/* Logo */}
         <Link
           href="/"
           className="group flex items-center gap-3"
@@ -30,15 +34,14 @@ export function Navbar() {
 
           <div className="hidden sm:block">
             <p className="text-base font-bold tracking-tight text-primary">
-              Doctor&apos;s Autos
+              {businessName}
             </p>
             <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-muted">
-              Ilorin, Nigeria
+              {address || "Nigeria"}
             </p>
           </div>
         </Link>
 
-        {/* Desktop navigation */}
         <nav
           className="hidden items-center gap-8 md:flex"
           aria-label="Main navigation"
@@ -54,7 +57,6 @@ export function Navbar() {
           ))}
         </nav>
 
-        {/* Desktop View Inventory button */}
         <Link
           href="/inventory"
           className="hidden items-center justify-center rounded-full bg-primary px-5 py-2.5 text-sm font-semibold !text-white shadow-md transition-all hover:bg-primary/90 hover:shadow-lg md:inline-flex"
@@ -62,7 +64,6 @@ export function Navbar() {
           View Inventory
         </Link>
 
-        {/* Mobile menu toggle */}
         <button
           type="button"
           className="inline-flex h-11 w-11 items-center justify-center rounded-lg text-foreground transition-colors hover:bg-muted/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary md:hidden"
@@ -108,7 +109,6 @@ export function Navbar() {
         </button>
       </div>
 
-      {/* Mobile navigation */}
       {menuOpen && (
         <nav
           id="mobile-navigation"
@@ -127,7 +127,6 @@ export function Navbar() {
               </Link>
             ))}
 
-            {/* Mobile View Inventory button */}
             <Link
               href="/inventory"
               onClick={() => setMenuOpen(false)}

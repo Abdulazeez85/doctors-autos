@@ -5,6 +5,11 @@ import NextAuth, { type DefaultSession } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
+import { headers } from "next/headers";
+import {
+  loginEmailRateLimit,
+  loginIpRateLimit,
+} from "@/lib/login-rate-limit";
 
 declare module "next-auth" {
   interface User {
@@ -40,6 +45,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         },
       },
 
+
+
+
+      
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
           return null;
@@ -48,27 +57,54 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         const email = String(credentials.email).trim().toLowerCase();
         const password = String(credentials.password);
 
-        const user = await prisma.user.findUnique({
-          where: { email },
-        });
+        try {
+          const requestHeaders = await headers();
+          const ip = requestHeaders.get("x-real-ip")?.trim();
 
-        if (!user) {
+          if (!ip) {
+            console.error("Login rate limiting unavailable: client IP missing.");
+            return null;
+          }
+
+          const [ipLimit, emailLimit] = await Promise.all([
+            loginIpRateLimit.limit(ip),
+            loginEmailRateLimit.limit(`${email}:${ip}`),
+          ]);
+
+          if (!ipLimit.success || !emailLimit.success) {
+            return null;
+          }
+
+          const user = await prisma.user.findUnique({
+            where: { email },
+          });
+
+          if (!user) {
+            return null;
+          }
+
+          const passwordValid = await bcrypt.compare(
+            password,
+            user.passwordHash,
+          );
+
+          if (!passwordValid) {
+            return null;
+          }
+
+          return {
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            role: user.role,
+          };
+        } catch (error) {
+          console.error("Login authentication or rate limiting failed:", error);
           return null;
         }
-
-        const passwordValid = await bcrypt.compare(password, user.passwordHash);
-
-        if (!passwordValid) {
-          return null;
-        }
-
-        return {
-          id: user.id,
-          name: user.name,
-          email: user.email,
-          role: user.role,
-        };
       },
+
+
     }),
   ],
 

@@ -56,10 +56,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           return null;
         }
 
-        const passwordValid = await bcrypt.compare(
-          password,
-          user.passwordHash,
-        );
+        const passwordValid = await bcrypt.compare(password, user.passwordHash);
 
         if (!passwordValid) {
           return null;
@@ -84,6 +81,18 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (user) {
         token.id = user.id;
         token.role = user.role;
+      } else if (token.id) {
+        const currentUser = await prisma.user.findUnique({
+          where: { id: token.id },
+          select: { role: true },
+        });
+
+        if (!currentUser) {
+          token.id = "";
+          token.role = "";
+        } else {
+          token.role = currentUser.role;
+        }
       }
 
       return token;

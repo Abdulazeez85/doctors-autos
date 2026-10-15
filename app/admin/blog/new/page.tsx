@@ -3,7 +3,7 @@ import Link from "next/link";
 import { requireAdmin } from "@/lib/require-admin";
 
 import { createBlogPost } from "../actions";
-
+import { BlogCoverImageUpload } from "../blog-cover-image-upload";
 export default async function NewBlogPostPage() {
   await requireAdmin();
 
@@ -72,24 +72,8 @@ export default async function NewBlogPostPage() {
           </div>
 
           <div>
-            <label
-              htmlFor="coverImage"
-              className="mb-2 block text-sm font-semibold text-[#111827]"
-            >
-              Cover image URL
-            </label>
-            <input
-              id="coverImage"
-              name="coverImage"
-              type="url"
-              placeholder="https://example.com/car-photo.jpg"
-              className="w-full rounded-lg border border-[#D1D5DB] px-4 py-3 text-[#111827] outline-none focus:border-[#C9A227] focus:ring-2 focus:ring-[#C9A227]/20"
-            />
-            <p className="mt-1 text-xs text-[#6B7280]">
-              Paste a publicly accessible image URL.
-            </p>
-          </div>
-
+  <BlogCoverImageUpload />
+</div>
           <div>
             <label
               htmlFor="content"

@@ -5,6 +5,7 @@ import { requireAdmin } from "@/lib/require-admin";
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { cloudinary } from "@/lib/cloudinary";
 
 function slugify(value: string) {
   return value
@@ -97,6 +98,62 @@ export async function createBlogPost(formData: FormData) {
 
   redirect("/admin/blog");
 }
+
+
+export async function uploadBlogCoverImage(formData: FormData) {
+  await requireAdmin();
+
+  const file = formData.get("image");
+
+  if (!(file instanceof File) || file.size === 0) {
+    throw new Error("Please select an image to upload.");
+  }
+
+  const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
+
+  if (!allowedTypes.includes(file.type)) {
+    throw new Error("Please upload a JPG, PNG, or WebP image.");
+  }
+
+  const maxSize = 5 * 1024 * 1024;
+
+  if (file.size > maxSize) {
+    throw new Error("The image must be 5 MB or smaller.");
+  }
+
+  const bytes = await file.arrayBuffer();
+  const buffer = Buffer.from(bytes);
+
+  const result = await new Promise<{ secure_url: string }>(
+    (resolve, reject) => {
+      const stream = cloudinary.uploader.upload_stream(
+        {
+          folder: "doctors-autos/blog",
+          resource_type: "image",
+        },
+        (error, uploadedImage) => {
+          if (error) {
+            reject(new Error("Image upload failed. Please try again."));
+            return;
+          }
+
+          if (!uploadedImage?.secure_url) {
+            reject(new Error("Cloudinary did not return an image URL."));
+            return;
+          }
+
+          resolve({ secure_url: uploadedImage.secure_url });
+        },
+      );
+
+      stream.end(buffer);
+    },
+  );
+
+  return { url: result.secure_url };
+}
+
+ 
 
 export async function updateBlogPost(formData: FormData) {
   await requireAdmin();

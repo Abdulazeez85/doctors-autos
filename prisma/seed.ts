@@ -47,12 +47,12 @@ async function main() {
       email: adminEmail.toLowerCase(),
     },
     update: {
-      name: "Doctor's Autos Admin",
+      name: "Doctors Autos Admin",
       passwordHash,
       role: UserRole.ADMIN,
     },
     create: {
-      name: "Doctor's Autos Admin",
+      name: "Doctors Autos Admin",
       email: adminEmail.toLowerCase(),
       passwordHash,
       role: UserRole.ADMIN,

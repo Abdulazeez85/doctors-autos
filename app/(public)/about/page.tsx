@@ -4,7 +4,7 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "About Us",
   description:
-    "Learn about Doctor's Autos in Ilorin, Kwara State, and our commitment to helping customers find a vehicle that suits their needs.",
+    "Learn about Doctors Autos in Ilorin, Kwara State, and our commitment to helping customers find a vehicle that suits their needs.",
 };
 
 const values = [
@@ -50,7 +50,7 @@ export default function AboutPage() {
           </h1>
 
           <p className="mt-7 max-w-2xl text-base leading-8 text-white/75 sm:text-lg">
-            At Doctor&apos;s Autos, we want to make your vehicle search clearer,
+            At Doctors Autos, we want to make your vehicle search clearer,
             more convenient, and focused on what matters to you.
           </p>
 
@@ -80,13 +80,13 @@ export default function AboutPage() {
             </p>
 
             <h2 className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-              Welcome to Doctor&apos;s Autos
+              Welcome to Doctors Autos
             </h2>
           </div>
 
           <div className="space-y-5 text-base leading-8 text-muted">
             <p>
-              Doctor&apos;s Autos is a vehicle dealership based in Ilorin,
+              Doctors Autos is a vehicle dealership based in Ilorin,
               Kwara State, Nigeria. We help customers explore available vehicles
               and consider the options that best match their needs.
             </p>
@@ -160,7 +160,7 @@ export default function AboutPage() {
 
             <p className="mt-4 max-w-2xl leading-7 text-white/70">
               Have a question about an available vehicle? Get in touch with
-              Doctor&apos;s Autos or browse our current inventory.
+              Doctors Autos or browse our current inventory.
             </p>
 
             <p className="mt-5 text-sm text-white/80">

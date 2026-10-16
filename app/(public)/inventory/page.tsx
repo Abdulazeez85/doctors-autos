@@ -71,8 +71,7 @@ const filterOptions = await getInventoryFilterOptions();
                 </h1>
 
                 <p className="mt-5 max-w-2xl text-base leading-7 text-muted">
-                  Explore the vehicles currently available at Doctor&apos;s
-                  Autos in Ilorin.
+                  Explore the vehicles currently available at Doctors Autos in Ilorin.
                 </p>
               </div>
 

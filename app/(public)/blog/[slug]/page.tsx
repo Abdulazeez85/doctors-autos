@@ -37,7 +37,7 @@ export default async function BlogPostPage({
 
         <header className="mt-8">
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#9A7B19]">
-            Doctor&apos;s Autos
+            Doctors Autos
           </p>
 
           <h1 className="mt-4 text-3xl font-bold leading-tight tracking-tight text-[#111827] sm:text-5xl">
@@ -85,7 +85,7 @@ export default async function BlogPostPage({
 
         <footer className="mt-10 border-t border-[#E8E8E2] py-8">
           <p className="text-sm text-[#6B7280]">
-            Looking for your next vehicle? Get in touch with Doctor&apos;s Autos.
+            Looking for your next vehicle? Get in touch with Doctors Autos.
           </p>
 
           <div className="mt-4 flex flex-wrap gap-3">

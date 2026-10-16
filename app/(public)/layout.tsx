@@ -14,7 +14,7 @@ export default async function PublicLayout({
     where: { id: "main" },
   });
 
-  const businessName = settings?.businessName ?? "Doctor's Autos";
+  const businessName = settings?.businessName ?? "Doctors Autos";
   const address = settings?.address ?? "Ilorin, Kwara State, Nigeria";
 
   return (

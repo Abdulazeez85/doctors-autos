@@ -19,8 +19,7 @@ export async function FeaturedVehicles() {
             </h2>
 
             <p className="mt-4 max-w-xl text-base leading-7 text-muted">
-              Explore some of the vehicles currently available at Doctor&apos;s
-              Autos.
+              Explore some of the vehicles currently available at Doctors Autos.
             </p>
           </div>
 

@@ -12,7 +12,7 @@ export function AboutPreview() {
             <div className="flex h-full items-center justify-center rounded-[1.5rem] bg-[#1a2230] px-8 text-center">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.25em] text-secondary">
-                  Doctor&apos;s Autos
+                  Doctors Autos
                 </p>
 
                 <p className="mt-3 text-sm text-white/40">
@@ -31,7 +31,7 @@ export function AboutPreview() {
         {/* Content */}
         <div>
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-secondary">
-            About Doctor&apos;s Autos
+            About Doctors Autos
           </p>
 
           <h2 className="mt-4 max-w-xl text-3xl font-bold leading-tight tracking-tight text-primary sm:text-4xl lg:text-5xl">
@@ -40,7 +40,7 @@ export function AboutPreview() {
 
           <div className="mt-6 max-w-xl space-y-4 text-base leading-7 text-muted">
             <p>
-              At Doctor&apos;s Autos, we believe finding your next vehicle
+              At Doctors Autos, we believe finding your next vehicle
               should be a confident and straightforward experience.
             </p>
 

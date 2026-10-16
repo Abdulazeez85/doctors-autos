@@ -23,7 +23,7 @@ const fallbackTestimonials = [
     location: "Ilorin",
     rating: 5,
     comment:
-      "Professional service and a smooth buying experience. I would definitely recommend Doctor's Autos.",
+      "Professional service and a smooth buying experience. I would definitely recommend Doctors Autos.",
   },
 ];
 export async function Testimonials() {
@@ -63,7 +63,7 @@ export async function Testimonials() {
             <p className="mt-4 max-w-xl text-base leading-7 text-muted">
               {showingFallback
                 ? "Every customer experience matters. Here's what some of our customers have to say."
-                : "Read feedback shared by customers of Doctor's Autos."}
+                : "Read feedback shared by customers of Doctors Autos."}
             </p>
           </div>
           <Link

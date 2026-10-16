@@ -3,9 +3,9 @@ import type { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
 import { ReviewSubmissionForm } from "./ReviewSubmissionForm";
 export const metadata: Metadata = {
-  title: "Customer Reviews | Doctor's Autos",
+  title: "Customer Reviews | Doctors Autos",
   description:
-    "Read customer feedback and experiences with Doctor's Autos in Ilorin, Kwara State.",
+    "Read customer feedback and experiences with Doctors Autos in Ilorin, Kwara State.",
 };
 export default async function ReviewsPage() {
   const reviews = await prisma.review.findMany({
@@ -29,7 +29,7 @@ export default async function ReviewsPage() {
               What our customers say.
             </h1>
             <p className="mt-6 max-w-2xl text-base leading-8 text-white/75 sm:text-lg">
-              At Doctor&apos;s Autos, we believe buying a vehicle should be a
+              At Doctors Autos, we believe buying a vehicle should be a
               straightforward and enjoyable experience. Read feedback from
               customers who have shared their experiences with us.
             </p>

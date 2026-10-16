@@ -43,7 +43,7 @@ export function VehicleCard({
           <div className="flex h-full items-center justify-center">
             <div className="text-center">
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted">
-                Doctor&apos;s Autos
+                Doctors Autos
               </p>
               <p className="mt-2 text-xs text-muted/70">
                 No vehicle photo available

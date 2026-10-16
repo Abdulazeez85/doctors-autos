@@ -10,11 +10,11 @@ const geist = Geist({
 
 export const metadata: Metadata = {
   title: {
-    default: "Doctor's Autos",
-    template: "%s | Doctor's Autos",
+    default: "Doctors Autos",
+    template: "%s | Doctors Autos",
   },
   description:
-    "Quality vehicles you can trust. Explore the latest inventory from Doctor's Autos in Ilorin, Kwara State.",
+    "Quality vehicles you can trust. Explore the latest inventory from Doctors Autos in Ilorin, Kwara State.",
 };
 
 export default function RootLayout({

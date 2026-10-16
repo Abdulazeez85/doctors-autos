@@ -15,8 +15,7 @@ export function FinalCTA() {
             </h2>
 
             <p className="mt-5 max-w-xl text-base leading-7 text-white/65">
-              Explore our available vehicles or speak directly with Doctor&apos;s
-              Autos about what you&apos;re looking for.
+              Explore our available vehicles or speak directly with Doctors Autos about what you&apos;re looking for.
             </p>
           </div>
 

@@ -15,7 +15,7 @@ export default async function AdminDashboardPage() {
         <header className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#C9A227]">
-              Doctor&apos;s Autos
+              Doctors Autos
             </p>
 
             <h1 className="mt-3 text-3xl font-bold tracking-tight text-[#111827]">

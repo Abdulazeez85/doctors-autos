@@ -15,7 +15,7 @@ export default async function AdminReviewsPage() {
         <header className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#C9A227]">
-              Doctor&apos;s Autos
+              Doctors Autos
             </p>
             <h1 className="mt-3 text-3xl font-bold tracking-tight text-[#111827]">
               Review Management

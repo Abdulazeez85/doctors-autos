@@ -36,7 +36,7 @@ export function ReviewSubmissionForm() {
           Share your experience
         </h2>
         <p className="mt-3 leading-7 text-muted">
-          Bought a vehicle from Doctor&apos;s Autos? Tell us about your
+          Bought a vehicle from Doctors Autos? Tell us about your
           experience. Your review will be checked before it appears publicly.
         </p>
       </div>
@@ -104,7 +104,7 @@ export function ReviewSubmissionForm() {
             minLength={10}
             maxLength={2000}
             required
-            placeholder="Tell us about your experience with Doctor's Autos..."
+            placeholder="Tell us about your experience with Doctors Autos..."
             className="w-full resize-y rounded-lg border border-border bg-white px-4 py-3 text-foreground outline-none transition focus:border-secondary focus:ring-2 focus:ring-secondary/20"
           />
           <p className="mt-2 text-xs text-muted">

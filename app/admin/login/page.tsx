@@ -39,7 +39,7 @@ export default function AdminLoginPage() {
       <div className="w-full max-w-md">
         <div className="mb-8 text-center">
           <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-[#C9A227]">
-            Doctor&apos;s Autos
+            Doctors Autos
           </p>
 
           <h1 className="text-3xl font-bold tracking-tight text-[#111827]">

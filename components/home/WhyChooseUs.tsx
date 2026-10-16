@@ -31,7 +31,7 @@ export function WhyChooseUs() {
       <div className="mx-auto max-w-7xl">
         <div className="max-w-2xl">
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-secondary">
-            Why Doctor&apos;s Autos
+            Why Doctors Autos
           </p>
 
           <h2 className="mt-3 text-3xl font-bold tracking-tight text-primary sm:text-4xl">

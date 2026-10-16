@@ -59,7 +59,7 @@ export default async function VehicleDetailPage({
     notFound();
   }
 
-  const businessName = settings?.businessName || "Doctor's Autos";
+  const businessName = settings?.businessName || "Doctors Autos";
   const phone = settings?.phone || "08113545998";
   const whatsapp = settings?.whatsapp || "08113545998";
 

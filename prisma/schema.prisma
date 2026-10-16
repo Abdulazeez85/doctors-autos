@@ -112,7 +112,7 @@ model BlogPost {
 
 model SiteSettings {
   id           String   @id @default(cuid())
-  businessName String   @default("Doctor's Autos")
+  businessName String   @default("Doctors Autos")
   tagline      String?
   phone        String?
   whatsapp     String?

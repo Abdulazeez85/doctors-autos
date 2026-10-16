@@ -5,7 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 
 const defaultSettings = {
-  businessName: "Doctor's Autos",
+  businessName: "Doctors Autos",
   tagline: "",
   phone: "08113545998",
   whatsapp: "08113545998",

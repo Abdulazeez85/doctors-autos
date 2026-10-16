@@ -63,7 +63,7 @@ export function Hero() {
             <div className="flex aspect-[4/3] items-center justify-center overflow-hidden rounded-[1.5rem] bg-[#1a2230]">
               <div className="px-8 text-center text-white/40">
                 <p className="text-sm font-medium uppercase tracking-[0.2em]">
-                  Doctor&apos;s Autos
+                  Doctors Autos
                 </p>
                 <p className="mt-2 text-xs">
                   Premium vehicle imagery coming next

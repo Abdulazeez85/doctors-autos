@@ -25,10 +25,10 @@ export default async function BlogPage() {
       <div className="mx-auto max-w-7xl">
         <header className="max-w-3xl">
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#B08D20]">
-            Doctor&apos;s Autos
+            Doctors Autos
           </p>
           <h1 className="mt-3 text-4xl font-bold tracking-tight text-[#111827] sm:text-5xl">
-            The Doctor&apos;s Autos Blog
+            The Doctors Autos Blog
           </h1>
           <p className="mt-5 text-lg leading-8 text-[#6B7280]">
             Helpful insights on buying, maintaining, and getting the best value
@@ -67,7 +67,7 @@ export default async function BlogPage() {
                 ) : (
                   <div className="flex aspect-[16/10] items-center justify-center bg-[#0B1220] px-6 text-center">
                     <span className="text-2xl font-bold text-white">
-                      Doctor&apos;s Autos
+                      Doctors Autos
                     </span>
                   </div>
                 )}

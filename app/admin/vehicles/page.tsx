@@ -30,7 +30,7 @@ export default async function AdminVehiclesPage() {
             </Link>
 
             <p className="mt-6 text-sm font-semibold uppercase tracking-[0.2em] text-[#C9A227]">
-              Doctor&apos;s Autos
+              Doctors Autos
             </p>
 
             <h1 className="mt-2 text-3xl font-bold tracking-tight text-[#111827]">

@@ -22,7 +22,7 @@ export default async function AdminSettingsPage() {
 
         <header className="mt-6">
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#9A7B19]">
-            Doctor&apos;s Autos
+            Doctors Autos
           </p>
 
           <h1 className="mt-3 text-3xl font-bold tracking-tight text-[#111827]">

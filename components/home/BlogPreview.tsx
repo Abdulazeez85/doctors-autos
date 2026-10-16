@@ -60,7 +60,7 @@ export function BlogPreview() {
             >
               <div className="flex aspect-[16/9] items-center justify-center bg-surface-muted">
                 <span className="text-xs font-semibold uppercase tracking-[0.2em] text-muted">
-                  Doctor&apos;s Autos
+                  Doctors Autos
                 </span>
               </div>
 
